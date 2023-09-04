@@ -10,7 +10,7 @@ use tower_http::trace::TraceLayer;
 #[clap(name = "server", about = "A server for our wasm project!")]
 struct Opt {
     /// set the log level
-    #[clap(short = 'l', long = "log", default_value = "debug")]
+    #[clap(short = 'l', long = "log", default_value = "info")]
     log_level: String,
 
     /// set the listen addr
