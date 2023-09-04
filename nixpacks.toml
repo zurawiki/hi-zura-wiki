@@ -1,0 +1,2 @@
+[start]
+cmd = './bin/hi-zura-wiki --addr 0.0.0.0 --port $PORT'
