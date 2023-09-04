@@ -14,7 +14,7 @@ struct Opt {
     log_level: String,
 
     /// set the listen addr
-    #[clap(short = 'a', long = "addr", default_value = "::1")]
+    #[clap(short = 'a', long = "addr", default_value = "0.0.0.0")]
     addr: String,
 
     /// set the listen port
@@ -37,9 +37,14 @@ async fn main() {
         .fallback(get(hello))
         .layer(ServiceBuilder::new().layer(TraceLayer::new_for_http()));
 
+    let port: u16 = if std::env::var("PORT").is_ok() {
+        std::env::var("PORT").unwrap().parse().unwrap()
+    } else {
+        opt.port
+    };
     let sock_addr = SocketAddr::from((
         IpAddr::from_str(opt.addr.as_str()).unwrap_or(IpAddr::V6(Ipv6Addr::LOCALHOST)),
-        opt.port,
+        port,
     ));
 
     log::info!("listening on http://{}", sock_addr);
